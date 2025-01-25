@@ -1,0 +1,17 @@
+[Unit]
+Description=ostree-%i
+After=docker.service
+Requires=docker.service
+
+[Service]
+Restart=always
+RestartSec=15
+TimeoutStartSec=0
+User=root
+Group=root
+ExecStartPre=/usr/bin/nginx-pre.sh
+ExecStart=/usr/bin/docker compose --project-directory /var/opt/persist/nginx -f /var/opt/persist/nginx/docker-compose.yml up --remove-orphans --quiet-pull
+ExecStop=/usr/bin/docker compose --project-directory /var/opt/persist/nginx down
+
+[Install]
+WantedBy=multi-user.target
