@@ -5,6 +5,8 @@ Requires=docker.service
 
 [Service]
 Restart=always
+RestartSec=15
+TimeoutStartSec=0
 ExecStartPre=/usr/bin/docker pull portainer/agent:latest
 ExecStart=/usr/bin/docker run --rm --name %n --stop-timeout 60 \
   -p 9001:9001 \
