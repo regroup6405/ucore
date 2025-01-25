@@ -1,5 +1,5 @@
 [Unit]
-Description=ostree-%i
+Description=ostree-nginx
 After=docker.service
 Requires=docker.service
 

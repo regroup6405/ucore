@@ -1,5 +1,5 @@
 [Unit]
-Description=portainer agent dockerized service
+Description=ostree-portaineragent
 After=docker.service
 Requires=docker.service
 

@@ -1,5 +1,5 @@
 [Unit]
-Description=heimdall dockerized service
+Description=ostree-heimdall
 After=docker.service nginx.service
 Requires=docker.service nginx.service
 

@@ -1,5 +1,5 @@
 [Unit]
-Description=buildbot dockerized service
+Description=ostree-buildbot
 After=docker.service
 Requires=docker.service
 
