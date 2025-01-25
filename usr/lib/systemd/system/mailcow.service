@@ -2,6 +2,7 @@
 Description=ostree-mailcow
 After=docker.service
 Requires=docker.service
+Conflicts=nginx.service
 
 [Service]
 Restart=always
