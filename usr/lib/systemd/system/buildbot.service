@@ -5,6 +5,8 @@ Requires=docker.service
 
 [Service]
 Restart=always
+RestartSec=15
+TimeoutStartSec=0
 ExecStartPre=/bin/sh -c '[ ! -d /var/opt/persist/buildbot ] && mkdir -p /var/opt/persist/buildbot; [ ! -f /var/opt/persist/buildbot/env ] && cp /usr/etc/default/buildbot/env /var/opt/persist/buildbot; exit 0'
 ExecStartPre=/usr/bin/docker pull drone/drone-runner-docker:latest
 ExecStart=/usr/bin/docker run --rm --name %n --stop-timeout 60 \

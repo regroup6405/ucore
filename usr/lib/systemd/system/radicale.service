@@ -5,6 +5,8 @@ Requires=docker.service nginx.service
 
 [Service]
 Restart=always
+RestartSec=15
+TimeoutStartSec=0
 ExecStartPre=/usr/bin/docker pull tomsquest/docker-radicale
 ExecStart=/usr/bin/docker run --rm --name %n --stop-timeout 60 \
     --net nginx_default --ip 172.20.1.31 \
