@@ -2,6 +2,7 @@
 set -ex
 
 FOLDER="/var/opt/persist/mailcow"
+[ ! -d "$FOLDER" ] && git clone https://github.com/mailcow/mailcow-dockerized.git "$FOLDER" && exit 1
 [ ! -d "$FOLDER"/data/assets/ssl ] && mkdir -p "$FOLDER"/data/assets/ssl
 
 find "$FOLDER"/data | grep 'ssl-example/dhparams.pem$' | while IFS= read -r i; do
