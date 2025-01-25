@@ -1,0 +1,17 @@
+[Unit]
+Description=ostree-%i
+After=docker.service nginx.service
+Requires=docker.service nginx.service
+
+[Service]
+Restart=always
+RestartSec=15
+TimeoutStartSec=0
+User=root
+Group=root
+ExecStartPre=/bin/sh -c '[ ! -d "/var/opt/persist/drone" ] && mkdir -p "/var/opt/persist/drone"; cp -r /etc/default/drone /var/opt/persist; chown 1000:1000 -R /var/opt/persist/drone; exit 0'
+ExecStart=/usr/bin/docker compose --project-directory /var/opt/persist/drone -f /var/opt/persist/drone/docker-compose.yml up --remove-orphans --quiet-pull
+ExecStop=/usr/bin/docker compose --project-directory /var/opt/persist/drone down
+
+[Install]
+WantedBy=multi-user.target

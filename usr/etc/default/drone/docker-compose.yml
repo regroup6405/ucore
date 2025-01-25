@@ -1,0 +1,40 @@
+services:
+  drone-server:
+    image: drone/drone:2
+    container_name: drone-server
+    env_file:
+      - ./env
+    volumes:
+      - ./drone-data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    labels:
+      com.centurylinklabs.watchtower.enable: "true"
+    restart: always
+    networks:
+      default:
+        ipv4_address: 172.20.1.20
+      drone:
+    depends_on:
+      - drone-postgres
+
+  drone-postgres:
+    image: postgres:14-alpine
+    container_name: drone-postgres
+    environment:
+      - POSTGRES_USER=drone
+      - POSTGRES_PASSWORD=drone
+      - POSTGRES_DB=drone
+    volumes:
+      - ./drone-postgres:/var/lib/postgresql/data
+    labels:
+      com.centurylinklabs.watchtower.enable: "true"
+    restart: always
+    networks:
+      drone:
+
+networks:
+  default:
+     name: nginx_default
+     external: true
+  drone:

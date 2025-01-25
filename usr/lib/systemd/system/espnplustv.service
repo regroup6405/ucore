@@ -1,0 +1,24 @@
+[Unit]
+Description=espnplustv dockerized service
+After=docker.service nginx.service
+Requires=docker.service nginx.service
+
+[Service]
+#StandardOutput=journal+console
+Restart=always
+ExecStartPre=/usr/bin/docker pull m0ngr31/eplustv
+ExecStart=/usr/bin/docker run --rm --name %n --stop-timeout 60 \
+  --net nginx_default --ip 172.20.1.113 \
+  -v /var/opt/persist/eplustv:/app/config \
+  -e LINEAR_CHANNELS=true \
+  -e START_CHANNEL=1 \
+  -e NUM_OF_CHANNELS=599 \
+  -e FOXSPORTS=true \
+  -e CBSSPORTS=true \
+  -e PARAMOUNTPLUS=true \
+  m0ngr31/eplustv
+#  -p 8000:8000
+ExecStop=/usr/bin/docker stop -t 2 %n
+
+[Install]
+WantedBy=default.target

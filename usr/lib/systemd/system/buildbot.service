@@ -1,0 +1,20 @@
+[Unit]
+Description=buildbot dockerized service
+After=docker.service
+Requires=docker.service
+
+[Service]
+Restart=always
+ExecStartPre=/bin/sh -c '[ ! -d /var/opt/persist/buildbot ] && mkdir -p /var/opt/persist/buildbot; [ ! -f /var/opt/persist/buildbot/env ] && cp /usr/etc/default/buildbot/env /var/opt/persist/buildbot; exit 0'
+ExecStartPre=/usr/bin/docker pull drone/drone-runner-docker:latest
+ExecStart=/usr/bin/docker run --rm --name %n --stop-timeout 60 \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v /etc/localtime:/etc/localtime:ro \
+  -v /etc/hosts:/etc/hosts:ro \
+  -v /etc/resolv.conf:/etc/resolv.conf:ro \
+  --env-file /var/opt/persist/buildbot/env \
+  drone/drone-runner-docker:latest
+ExecStop=/usr/bin/docker stop -t 2 %n
+
+[Install]
+WantedBy=default.target
