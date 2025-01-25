@@ -8,10 +8,9 @@ services:
       - TZ=Etc/UTC
     volumes:
       - /var/opt/persist/nginx/config:/config
-      - /etc/ssl/nginx:/etc/ssl/nginx
       - /var/opt/persist/static:/var/opt/persist/static
+      - /etc/ssl:/etc/ssl
     ports:
-      - 80:80
       - 443:443
     restart: unless-stopped
     networks:
