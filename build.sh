@@ -9,11 +9,7 @@ cat <<EOF > "$TMP"
 docker.service
 #nginx.service
 
-#heimdall.service
-#radicale.service
 portaineragent.service
-#uptimekuma.service
-#vaultwarden.service
 
 autoreboot.timer
 docker-cleanup.timer
