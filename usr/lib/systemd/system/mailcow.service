@@ -9,7 +9,7 @@ RestartSec=15
 TimeoutStartSec=0
 User=root
 Group=root
-ExecStartPre=/bin/sh -c '[ ! -d "/var/opt/persist/mailcow" ] && mkdir -p "/var/opt/persist/mailcow"; chown 1000:1000 -R /var/opt/persist/mailcow; exit 0'
+ExecStartPre=/bin/sh -c 'if [ ! -d "/var/opt/persist/mailcow" ]; then git clone https://github.com/mailcow/mailcow-dockerized.git "/var/opt/persist/mailcow"; else cd "/var/opt/persist/mailcow"; git pull; git checkout "$(git describe --tags `git rev-list --tags --max-count=1`)"; fi; chown 1000:1000 -R /var/opt/persist/mailcow; exit 0'
 ExecStart=/usr/bin/docker compose --project-directory /var/opt/persist/mailcow -f /var/opt/persist/mailcow/docker-compose.yml up --remove-orphans --quiet-pull
 ExecStop=/usr/bin/docker compose --project-directory /var/opt/persist/mailcow down
 
