@@ -1,4 +1,4 @@
-# image-template
+# ucore
 
 # Purpose
 
