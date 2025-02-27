@@ -8,4 +8,4 @@ COPY --from=docker.io/mikefarah/yq:latest /usr/bin/yq /usr/bin/yq
 
 RUN mkdir -p /var/lib/alternatives && \
     /tmp/build.sh && \
-    bootc container lint
+    ostree container commit
