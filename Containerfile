@@ -1,4 +1,4 @@
-FROM ghcr.io/ublue-os/ucore-minimal:stable
+FROM ghcr.io/ublue-os/ucore-minimal:stable-zfs
 
 COPY usr /usr
 
