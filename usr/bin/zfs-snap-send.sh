@@ -32,18 +32,20 @@ echo "${SOURCELIST}" \
       ssh -n ${TARGETSSH} "sudo zfs create $i"
     fi
     EXISTSONTARGET="$(echo "$TARGETLIST" | grep -q "$i" && echo 1)"
-    ssh -n "$TARGETSSH" sudo zfs set readonly=off "$i"
+    ssh -n ${TARGETSSH} "sudo zfs set readonly=off $i"
     if [ "$EXISTSONTARGET" == "1" ]; then
-      echo "$i exists on target, incrementally sending..."
+      # echo "$i exists on target, incrementally sending..."
       TARGETLATEST="$(echo "$TARGETLIST" | grep "$i" | tail -n 1 | awk '{print $1}')"
       [ "$SOURCELATEST" == "$TARGETLATEST" ] && echo "$TARGETLATEST == $SOURCELATEST, continuing..." && continue
-      echo "$TARGETLATEST > $SOURCELATEST"
+      # echo "$TARGETLATEST > $SOURCELATEST"
       echo sudo zfs send -i "$TARGETLATEST" "$SOURCELATEST" \| ssh ${TARGETSSH} sudo zfs recv $i | bash
     else
-      echo "$i doesn't exist on target, sending from scratch..."
+      # echo "$i doesn't exist on target, sending from scratch..."
       SOURCEFIRST="$(echo "$SOURCELIST" | grep "$i" | head -n 1 | awk '{print $1}')"
       echo sudo zfs send "$SOURCEFIRST" \| ssh ${TARGETSSH} sudo zfs recv -F $i | bash
       echo sudo zfs send -i "$SOURCEFIRST" "$SOURCELATEST" \| ssh ${TARGETSSH} sudo zfs recv -F $i | bash
     fi
-  ssh -n "$TARGETSSH" sudo zfs set readonly=on "$i"
+    ssh -n ${TARGETSSH} "sudo zfs set readonly=on $i"
   done
+
+ssh -n ${TARGETSSH} "sudo zfsnap destroy -r ${ROOTDATASTORE}"
