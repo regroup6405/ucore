@@ -5,4 +5,5 @@ Description=zfs-snap-send %i
 Type=oneshot
 User=root
 Environment="TARGETSSH="
+Environment="KEYLOC="
 ExecStart=/usr/bin/zfs-snap-send.sh %i
