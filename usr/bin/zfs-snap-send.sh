@@ -17,6 +17,7 @@ TARGETDATASETS="$(ssh -i ${KEYLOC} -n ${TARGETSSH} 'zfs list' | awk '{print $1}'
 TARGETLIST="$(ssh -i ${KEYLOC} -n ${TARGETSSH} 'zfs list -t snap' | grep '@')"
 
 echo "${SOURCELIST}" \
+| grep "^${ROOTDATASTORE}" \
 | grep -v "${ROOTDATASTORE}@" \
 | cut -d'@' -f1 \
 | sort \
