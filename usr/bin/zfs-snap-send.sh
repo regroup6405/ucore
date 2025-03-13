@@ -10,13 +10,6 @@ ZFSNAP="$(whereis zfsnap | awk '{print $2}')"
 
 sudo "$ZFSNAP" destroy -r "${ROOTDATASTORE}"
 
-zfs list \
-  | grep -v "^NAME" \
-  | awk '{print $1}' \
-  | while IFS= read -r i; do
-      sudo zfs set refreservation=none "$i"
-    done
-
 sudo "$ZFSNAP" snapshot -a 3d -r "${ROOTDATASTORE}"
 
 SOURCELIST="$(zfs list -t snap | grep @)"
@@ -29,6 +22,7 @@ echo "${SOURCELIST}" \
 | sort \
 | uniq \
 | while IFS= read -r i; do
+    [ ! "$(zfs get refreservation persist/buildbot | grep '/' | awk '{print $3}' | grep -q 'none' && echo 1)" == "1" ] && sudo zfs set refreservation=none "$i"
     SOURCELATEST="$(echo "$SOURCELIST" | grep "$i" | tail -n 1 | awk '{print $1}')"
     DATASETEXISTSONTARGET="$(echo "$TARGETDATASETS" | grep -q "$i" && echo 1)"
     if [ ! "$DATASETEXISTSONTARGET" == "1" ]; then
