@@ -12,9 +12,6 @@ ExecStartPre=/usr/bin/docker pull m0ngr31/eplustv
 ExecStart=/usr/bin/docker run --rm --name %n --stop-timeout 60 \
   --net nginx_default --ip 172.20.1.113 \
   -v /var/opt/persist/eplustv:/app/config \
-  -e LINEAR_CHANNELS=true \
-  -e START_CHANNEL=1 \
-  -e NUM_OF_CHANNELS=599 \
   m0ngr31/eplustv
 #  -p 8000:8000
 ExecStop=/usr/bin/docker stop -t 2 %n
