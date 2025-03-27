@@ -22,7 +22,7 @@ cp -r /usr/src/zfsnap/share /usr
 chmod +x /usr/sbin/zfsnap
 rm -rf /usr/src/zfsnap
 
-systemctl disable fwupd.service
+systemctl disable fwupd-refresh.timer
 
 cat "$TMP" | grep -v "^#" | grep '\.service$\|\.timer' | while IFS= read -r i; do
   systemctl enable "$i"
