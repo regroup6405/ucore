@@ -7,9 +7,6 @@ dnf install -y htop
 TMP="$(mktemp)"
 cat <<EOF > "$TMP"
 docker.service
-#nginx.service
-
-portaineragent.service
 
 autoreboot.timer
 docker-cleanup.timer
