@@ -2,7 +2,7 @@
 
 set -ouex pipefail
 
-dnf install -y htop
+dnf install -y htop samba samba-usershares 
 
 TMP="$(mktemp)"
 cat <<EOF > "$TMP"
